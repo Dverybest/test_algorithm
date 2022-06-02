@@ -52,5 +52,85 @@ namespace Test
             var res = arr.ToList().Aggregate(new int[] { 0, 0 }, (acc, x) => calulateSum(acc, x));
             return res[0] - res[1];
         }
+
+        
+          public static int isPrimeHappy(int n)
+        {
+            var primeList = new List<int>();
+            int curTest = 2;
+            while (curTest < n)
+            {
+
+                int sqrt = (int)Math.Sqrt(curTest);
+
+                bool isPrime = true;
+                for (int i = 0; i < primeList.Count && primeList.ElementAt(i) <= sqrt; ++i)
+                {
+                    if (curTest % primeList.ElementAt(i) == 0)
+                    {
+                        isPrime = false;
+                        break;
+                    }
+                }
+
+                if (isPrime) primeList.Add(curTest);
+
+                curTest += 1;
+            }
+            var sum = primeList.Aggregate(0, (a, b) => a + b);
+            if (sum % n == 0)
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public static int isTwinPaired(int[] arr)
+        {
+            var evenList = new List<int>();
+            var oddList = new List<int>();
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] % 2 == 0)
+                {
+                    evenList.Add(arr[i]);
+                }
+                else
+                {
+                    oddList.Add(arr[i]);
+                }
+            }
+            var sortedEvenList = evenList.OrderBy(number => number).ToList();
+            var sortedOddList = oddList.OrderBy(number => number).ToList();
+            if (evenList.SequenceEqual(sortedEvenList) && oddList.SequenceEqual(sortedOddList))
+            {
+                return 1;
+            }
+            return 0;
+        }
+        public static int sameNumberOfFactors(int n1, int n2)
+        {
+            if (n1 < 0 || n2 < 0) return -1;
+            if (n1 == n2) return 1;
+            if (n1 == 0 || n2 == 0) return 0;
+            var factors1 = new List<int>();
+            var factors2 = new List<int>();
+            for (int i = 1; i <= Math.Max(n1, n2); i++)
+            {
+                if (n1 % i == 0)
+                {
+                    factors1.Add(i);
+                }
+                if (n2 % i == 0)
+                {
+                    factors2.Add(i);
+                }
+            }
+            if (factors1.Count() == factors2.Count())
+            {
+                return 1;
+            }
+            return 0;
+        }
     }
 }
